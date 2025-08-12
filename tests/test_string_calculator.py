@@ -30,3 +30,5 @@ def test_newlines_are_supported(calc):
 def test_custom_single_char_delimiter(calc):
     assert calc.add("//;\n1;2") == 3
 
+def test_custom_multi_char_delimiter_brackets(calc):
+    assert calc.add("//[***]\n1***2***3") == 6
