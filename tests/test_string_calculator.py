@@ -1,6 +1,6 @@
 import pytest
 
-from string_calculator.calculator import StringCalculator
+from string_calculator.calculator import StringCalculator, NegativeNumberError
 
 
 @pytest.fixture
@@ -38,3 +38,10 @@ def test_multiple_custom_delimiters(calc):
 
 def test_whitespace_around_numbers(calc):
     assert calc.add(" 1 , 2 \n 3 ") == 6
+
+
+def test_negative_raises_with_single_negative(calc):
+    with pytest.raises(NegativeNumberError) as excinfo:
+        calc.add("1,-2,3")
+    assert "negative numbers not allowed -2" in str(excinfo.value)
+
