@@ -50,3 +50,8 @@ def test_negative_raises_with_multiple_negatives(calc):
     with pytest.raises(NegativeNumberError) as excinfo:
         calc.add("-1,-2,3,-5")
     assert "negative numbers not allowed -1,-2,-5" == str(excinfo.value)
+
+
+def test_invalid_token_raises_value_error(calc):
+    with pytest.raises(ValueError):
+        calc.add("1,2,foo")
