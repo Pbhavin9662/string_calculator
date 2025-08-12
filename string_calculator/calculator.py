@@ -15,11 +15,42 @@ class NegativeNumberError(ValueError):
 
 
 class StringCalculator:
+    """String calculator implementing the kata requirements.
+
+    Features / design choices:
+    - `add` receives a string and returns an int (sum).
+    - Supports default delimiters: comma and newline.
+    - Supports custom delimiter(s) declared at the beginning of the string as:
+      `//<delimiter>\n<numbers...>` or `//[delim1][delim2]\n...` for multi and/or long delimiters.
+    - Raises `NegativeNumberError` when any negative numbers are present and lists all of them.
+    - Robustly handles whitespace around numbers.
+
+    The implementation is intentionally small and well-factored to support unit testing and clarity.
+    """
+
     DEFAULT_DELIMITERS = [",", "\n"]
     _delimiter_pattern: Pattern[str] = re.compile(r"//(.*?)\n(.*)", flags=re.S)
 
     def add(self, numbers: str) -> int:
+        """Parse `numbers` and return their sum.
 
+        Parameters
+        ----------
+        numbers: str
+            Input string containing numbers separated by delimiters.
+
+        Returns
+        -------
+        int
+            Sum of the parsed integers. Empty input -> 0.
+
+        Raises
+        ------
+        NegativeNumberError
+            If one or more negative numbers are found.
+        ValueError
+            For malformed inputs that cannot be parsed as integers.
+        """
         if numbers is None:
             raise ValueError("numbers must be a string (got None)")
         
