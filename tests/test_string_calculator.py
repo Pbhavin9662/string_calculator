@@ -14,3 +14,7 @@ def test_empty_string_returns_zero(calc):
 
 def test_single_number(calc):
     assert calc.add("1") == 1
+
+
+def test_two_numbers_comma(calc):
+    assert calc.add("1,5") == 6
