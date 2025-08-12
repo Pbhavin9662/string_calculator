@@ -35,3 +35,6 @@ def test_custom_multi_char_delimiter_brackets(calc):
 
 def test_multiple_custom_delimiters(calc):
     assert calc.add("//[*][%]\n1*2%3") == 6
+
+def test_whitespace_around_numbers(calc):
+    assert calc.add(" 1 , 2 \n 3 ") == 6
