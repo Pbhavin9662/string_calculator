@@ -21,3 +21,7 @@ def test_two_numbers_comma(calc):
 
 def test_multiple_numbers(calc):
     assert calc.add("1,2,3,4,5") == 15
+
+
+def test_newlines_are_supported(calc):
+    assert calc.add("1\n2,3") == 6
