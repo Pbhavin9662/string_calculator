@@ -55,3 +55,7 @@ def test_negative_raises_with_multiple_negatives(calc):
 def test_invalid_token_raises_value_error(calc):
     with pytest.raises(ValueError):
         calc.add("1,2,foo")
+
+def test_none_input_raises(calc):
+    with pytest.raises(ValueError):
+        calc.add(None)  # type: ignore
