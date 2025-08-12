@@ -45,3 +45,8 @@ def test_negative_raises_with_single_negative(calc):
         calc.add("1,-2,3")
     assert "negative numbers not allowed -2" in str(excinfo.value)
 
+
+def test_negative_raises_with_multiple_negatives(calc):
+    with pytest.raises(NegativeNumberError) as excinfo:
+        calc.add("-1,-2,3,-5")
+    assert "negative numbers not allowed -1,-2,-5" == str(excinfo.value)
