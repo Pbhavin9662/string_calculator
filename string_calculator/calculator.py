@@ -125,3 +125,18 @@ class StringCalculator:
 
         # Otherwise treat the whole header as the delimiter (single character common case)
         return [header]
+
+
+if __name__ == "__main__":
+    calc = StringCalculator()
+    user_input = input("Enter numbers string: ")
+    try:
+        # Replace escaped \n with real newline
+        user_input = user_input.replace("\\n", "\n")
+
+        result = calc.add(user_input)
+        print(f"Result: {result}")
+    except NegativeNumberError as e:
+        print(e)
+    except ValueError as e:
+        print(f"Error: {e}")
