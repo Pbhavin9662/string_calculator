@@ -1,6 +1,6 @@
 from __future__ import annotations
 import re
-from typing import List
+from typing import List, Pattern
 
 class NegativeNumberError(ValueError):
     """Raised when negatives are present in input.
@@ -16,6 +16,7 @@ class NegativeNumberError(ValueError):
 
 class StringCalculator:
     DEFAULT_DELIMITERS = [",", "\n"]
+    _delimiter_pattern: Pattern[str] = re.compile(r"//(.*?)\n(.*)", flags=re.S)
 
     def add(self, numbers: str) -> int:
 
@@ -28,7 +29,14 @@ class StringCalculator:
             return 0
         
         body = numbers
-        
+
+        # Check for custom delimiter header
+        m = self._delimiter_pattern.match(numbers)
+        if m:
+            delim_part, body = m.group(1), m.group(2)
+            delimiters_from_header = self._parse_delimiters_header(delim_part)
+            delimiters = delimiters_from_header or delimiters
+
         # Build regex to split
         split_re = self._build_split_regex(delimiters)
 
@@ -67,3 +75,22 @@ class StringCalculator:
         return pattern
     
 
+    def _parse_delimiters_header(self, header: str) -> List[str]:
+        """Parse delimiter declaration header.
+
+        Supported formats:
+        - `;`  (single-char delimiter)
+        - `[***][%]`  (one or multiple bracketed delimiters of any length)
+
+        Returns a list of delimiters (strings) or an empty list if header is empty.
+        """
+        header = header or ""
+
+        # If header uses bracket syntax, extract bracket contents
+        if header.startswith("[") and header.endswith("]"):
+            # find all bracketed groups
+            parts = re.findall(r"\[(.*?)\]", header)
+            return parts
+
+        # Otherwise treat the whole header as the delimiter (single character common case)
+        return [header]
