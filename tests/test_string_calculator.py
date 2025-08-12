@@ -32,3 +32,6 @@ def test_custom_single_char_delimiter(calc):
 
 def test_custom_multi_char_delimiter_brackets(calc):
     assert calc.add("//[***]\n1***2***3") == 6
+
+def test_multiple_custom_delimiters(calc):
+    assert calc.add("//[*][%]\n1*2%3") == 6
